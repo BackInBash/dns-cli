@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 	"text/tabwriter"
 
 	"github.com/BackInBash/dns-cli/internal/api"
@@ -18,7 +19,7 @@ var getZonesCmd = &cobra.Command{
 	Short: "Returns all Zones from the DNS.",
 	Long:  `Returns all Zones from the DNS.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := getZone(); err != nil {
+		if err := getZones(); err != nil {
 			fmt.Printf("ERROR: %v\n", err)
 		}
 	},
@@ -34,17 +35,9 @@ func getZones() error {
 		return err
 	}
 
-	size := int(100)
-	start := int(1)
-	empty := string("")
-	parameters := api.GetV1ProjectsProjectIdZonesParams{
-		PageSize:    &size,
-		Page:        &start,
-		DnsNameEq:   &empty,
-		DnsNameLike: &empty,
-	}
+	parameters := &api.GetV1ProjectsProjectIdZonesParams{}
 
-	response, err := client.GetV1ProjectsProjectIdZones(context.Background(), projectId, &parameters)
+	response, err := client.GetV1ProjectsProjectIdZones(context.Background(), projectId, parameters)
 	if err != nil {
 		return fmt.Errorf("failed to get zones: %w", err)
 	}
@@ -65,12 +58,12 @@ func getZones() error {
 func printZones(zones []api.DomainZone) error {
 	writer := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', 0)
 	defer writer.Flush()
-	_, err := fmt.Fprintf(writer, "Id\tName\tDescription\tActive\n")
+	_, err := fmt.Fprintf(writer, "Id\tName\tDNS\tDescription\tActive\n")
 	if err != nil {
 		return fmt.Errorf("failed to write to tabwriter: %w", err)
 	}
 	for _, zone := range zones {
-		_, err = fmt.Fprintf(writer, "%s\t%s\t%s\t%t\n", zone.Id, zone.Name, zone.Description, zone.Active)
+		_, err = fmt.Fprintf(writer, "%s\t%s\t%s\t%s\t%s\n", zone.Id, zone.Name, zone.DnsName, *zone.Description, strconv.FormatBool(*zone.Active))
 		if err != nil {
 			return fmt.Errorf("failed to write to tabwriter: %w", err)
 		}
