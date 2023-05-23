@@ -12,15 +12,15 @@ import (
 )
 
 var (
-	secretsManagerApiUrl string
-	authenticationToken  string
-	projectId            string
+	dnsApiUrl           string
+	authenticationToken string
+	projectId           string
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "secrets-manager",
-	Short: "A command line interface for interacting with the Secrets Manager API.",
-	Long:  `A command line interface for interacting with the Secrets Manager API.`,
+	Use:   "dns",
+	Short: "A command line interface for interacting with the DNS API.",
+	Long:  `A command line interface for interacting with the DNS API.`,
 }
 
 func Execute() {
@@ -33,17 +33,17 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&secretsManagerApiUrl, "secrets-manager-api-url", "https://secrets-manager.api.eu01.stackit.cloud", "The url to the Secrets Manager API.")
-	rootCmd.PersistentFlags().StringVar(&authenticationToken, "authentication-token", "", "The JWT token for authenticating with the Secrets Manager API.")
+	rootCmd.PersistentFlags().StringVar(&dnsApiUrl, "dns-api-url", "https://dns.api.stackit.cloud", "The url to the DNS API.")
+	rootCmd.PersistentFlags().StringVar(&authenticationToken, "authentication-token", "", "The JWT token for authenticating with the DNS API.")
 	_ = rootCmd.MarkPersistentFlagRequired("authentication-token")
-	rootCmd.PersistentFlags().StringVar(&projectId, "project-id", "", "The project UUID the Secrets Manager resources are contained.")
+	rootCmd.PersistentFlags().StringVar(&projectId, "project-id", "", "The project UUID the DNS resources are contained.")
 	_ = rootCmd.MarkPersistentFlagRequired("project-id")
 }
 
 func initConfig() {
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
 	viper.AutomaticEnv()
-	viper.SetConfigName(".stackit-secrets-manager")
+	viper.SetConfigName(".stackit-dns")
 	viper.SetConfigType("yaml")
 	viper.SetConfigPermissions(0600)
 	homeDir, err := os.UserHomeDir()
