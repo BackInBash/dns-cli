@@ -1,6 +1,6 @@
 package main
 
-import "gitlab.app.iteos.schwarz/stackit-ps/dns-cli/-/tree/main/cmd"
+import "github.com/BackInBash/dns-cli/cmd"
 
 func main() {
 	cmd.Execute()
