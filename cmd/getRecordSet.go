@@ -15,7 +15,7 @@ import (
 )
 
 var getRecordsCmd = &cobra.Command{
-	Use:   "zone",
+	Use:   "records",
 	Short: "Returns all Records from a DNS Zone.",
 	Long:  `Returns all Records from a DNS Zone.`,
 	Run: func(cmd *cobra.Command, args []string) {
