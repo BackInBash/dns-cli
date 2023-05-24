@@ -3,13 +3,16 @@ Community Client to interact with the STACKIT DNS API.
 For early adopters who want to use the Service without the Portal integration yet avaliable.
 
 ## Feature List
-+ Create new DNS Zones
-+ Delete DNS Zones
-+ List single DNS Zone
-+ List all DNS Zone
-+ Create Record Set
-+ Delete Record Set
-+ List all Records
++ Create
+    + Create new DNS Zones
+    + Create Record Set
++ Get
+    + List single DNS Zone by ID
+    + List all DNS Zone
+    + List all Records
++ Delete
+    + Delete DNS Zones
+    + Delete Record Set
 
 ## Options Overview
 ```console
